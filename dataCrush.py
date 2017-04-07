@@ -3,6 +3,15 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 
+import matplotlib as mp
+font = {'family' : 'Helvetica',
+        'weight' : 'normal',
+        'size'   : 17}
+
+label_size = 15
+mp.rcParams['xtick.labelsize'] = label_size
+mp.rcParams['ytick.labelsize'] = label_size
+
 
 ############################################
 #        Delloite Hackathon. 2017.         #
