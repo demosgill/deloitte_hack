@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import matplotlib as mp
 font = {'family' : 'Helvetica',
         'weight' : 'normal',
-        'size'   : 17}
+        'size'   : 15}
 
-label_size = 15
+label_size = 12
 mp.rcParams['xtick.labelsize'] = label_size
 mp.rcParams['ytick.labelsize'] = label_size
 
@@ -16,7 +16,6 @@ mp.rcParams['ytick.labelsize'] = label_size
 ############################################
 #        Delloite Hackathon. 2017.         #
 ############################################
-
 
 path = '/Users/demos/Desktop/deloitte /Data/'
 
@@ -92,10 +91,29 @@ def computeEfectvinessRatioPoliciesPerRegion(Region='WEST AFRICA'):
     val2 = 'NGO_DataDisbursement.csv'
     data2 = pd.read_csv(path+val2)
 
-    #print(data2.Region.unique())
-
     df = data2[data2.Region == Region].groupby('Programme').mean().copy()
     df = pd.DataFrame(df[df.columns[0]])
     df.columns = [Region]
 
     return df
+
+
+############################################
+def CoverageRatePerVaccine(year='2015'):
+    # Select a dataset
+    val = 'WHO_Coverage_estimates.csv'
+    data = pd.read_csv(path + val)
+
+    vcns = data.Vaccine.unique() # Unique vacinnes
+
+    R = pd.DataFrame()
+    for i in range(len(vcns)):
+        res = getFeaturesFromVacineTrype(data, vaccine=vcns[i])
+        r = res.groupby('Region').mean();
+        r = r[r.columns[1:]]
+        r = pd.DataFrame(r['2015']).T
+        R = pd.concat([R, r], axis=0)
+
+    R.index = vcns
+
+    return R
